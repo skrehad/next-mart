@@ -93,6 +93,7 @@ export default function LoginForm() {
             )}
           />
 
+          {/* for checking i am not robot */}
           <div className="flex mt-3 w-full">
             <ReCAPTCHA
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY || ""}
