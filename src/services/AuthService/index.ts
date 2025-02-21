@@ -48,6 +48,7 @@ export const loginUser = async (userData: FieldValues) => {
   }
 };
 
+// decoded the access token
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get("accessToken")!.value;
   let decodedData = null;
