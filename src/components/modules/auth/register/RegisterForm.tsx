@@ -28,6 +28,7 @@ export default function RegisterForm() {
     formState: { isSubmitting },
   } = form;
 
+  //    for showing password and confirm password
   const password = form.watch("password");
   const passwordConfirm = form.watch("passwordConfirm");
   //   console.log(password, passwordConfirm);
@@ -108,6 +109,7 @@ export default function RegisterForm() {
                   <Input type="password" {...field} value={field.value || ""} />
                 </FormControl>
 
+                {/* for checking password and confirm password match */}
                 {passwordConfirm && password !== passwordConfirm ? (
                   <FormMessage> Password does not match </FormMessage>
                 ) : (
