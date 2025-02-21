@@ -120,6 +120,7 @@ export default function RegisterForm() {
           />
 
           <Button
+            //   for checking the password and confirm password is same then Register button is visible
             disabled={!!passwordConfirm && password !== passwordConfirm}
             type="submit"
             className="mt-5 w-full"
