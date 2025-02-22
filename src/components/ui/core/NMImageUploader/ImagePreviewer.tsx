@@ -3,13 +3,11 @@ import React from "react";
 import { Button } from "../../button";
 import { X } from "lucide-react";
 
-// টাইপ সঠিক করেছি
-type TImagePreviewer = {
+type TImangePreviewer = {
   setImageFiles: React.Dispatch<React.SetStateAction<File[]>>;
   imagePreview: string[];
   setImagePreview: React.Dispatch<React.SetStateAction<string[]>>;
   className?: string;
-  label?: string; // optional label প্রপার্টি
 };
 
 const ImagePreviewer = ({
@@ -17,8 +15,7 @@ const ImagePreviewer = ({
   imagePreview,
   setImagePreview,
   className,
-  label = "Uploaded Images", // default label value
-}: TImagePreviewer) => {
+}: TImangePreviewer) => {
   const handleRemove = (index: number) => {
     setImageFiles((prev) => prev.filter((_, idx) => idx !== index));
     setImagePreview((prev) => prev.filter((_, idx) => idx !== index));
@@ -26,8 +23,6 @@ const ImagePreviewer = ({
 
   return (
     <div className={className}>
-      {label && <p className="text-sm text-gray-500">{label}</p>}{" "}
-      {/* label দেখাবে */}
       {imagePreview.map((preview, index) => (
         <div
           key={index}
