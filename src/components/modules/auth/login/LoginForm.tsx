@@ -17,8 +17,9 @@ import Logo from "@/app/assets/svgs/Logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser, reCaptchaTokenVerification } from "@/services/AuthService";
 import { toast } from "sonner";
-import { useState } from "react";
 import { loginSchema } from "./loginValidation";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   const form = useForm({
@@ -26,6 +27,10 @@ export default function LoginForm() {
   });
 
   const [reCaptchaStatus, setReCaptchaStatus] = useState(false);
+
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirectPath");
+  const router = useRouter();
 
   const {
     formState: { isSubmitting },
@@ -38,7 +43,7 @@ export default function LoginForm() {
         setReCaptchaStatus(true);
       }
     } catch (err: any) {
-      toast.error(err);
+      console.error(err);
     }
   };
 
@@ -47,11 +52,16 @@ export default function LoginForm() {
       const res = await loginUser(data);
       if (res?.success) {
         toast.success(res?.message);
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push("/profile");
+        }
       } else {
         toast.error(res?.message);
       }
     } catch (err: any) {
-      toast.error(err);
+      console.error(err);
     }
   };
 
@@ -93,10 +103,9 @@ export default function LoginForm() {
             )}
           />
 
-          {/* for checking i am not robot */}
           <div className="flex mt-3 w-full">
             <ReCAPTCHA
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY || ""}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY!}
               onChange={handleReCaptcha}
               className="mx-auto"
             />
