@@ -235,7 +235,7 @@ export default function CreateShopForm() {
                 imagePreview={imagePreview}
                 setImagePreview={setImagePreview}
                 className="mt-8"
-                label="Uploaded Images" // label এখানে পাঠানো হচ্ছে
+                label="Uploaded Images"
               />
             ) : (
               <div className="mt-8">

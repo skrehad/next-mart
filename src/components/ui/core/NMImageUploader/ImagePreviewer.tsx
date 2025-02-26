@@ -10,6 +10,7 @@ type TImangePreviewer = {
   imagePreview: string[];
   setImagePreview: React.Dispatch<React.SetStateAction<string[]>>;
   className?: string;
+  label?: string;
 };
 
 const ImagePreviewer = ({
