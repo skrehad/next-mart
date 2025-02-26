@@ -11,7 +11,7 @@ type TImageUploader = {
 };
 
 const NMImageUploader = ({
-  label = "Upload Images",
+  label = "Upload Image",
   className,
   setImageFiles,
   setImagePreview,
