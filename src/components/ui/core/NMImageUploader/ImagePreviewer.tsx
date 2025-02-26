@@ -1,3 +1,5 @@
+// for showing the image in the uploader in form
+
 import Image from "next/image";
 import React from "react";
 import { Button } from "../../button";
