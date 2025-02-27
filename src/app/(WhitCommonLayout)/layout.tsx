@@ -3,11 +3,9 @@ import Navbar from "@/components/shared/Navbar";
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div className="mx-10">
       <Navbar></Navbar>
-
       <main className="min-h-screen">{children}</main>
-
       <Footer></Footer>
     </div>
   );
