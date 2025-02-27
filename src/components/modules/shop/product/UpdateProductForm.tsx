@@ -156,11 +156,14 @@ export default function UpdateProductForm({ product }: { product: IProduct }) {
     try {
       const res = await updateProduct(formData, product?._id);
 
+      console.log(res);
+
       if (res.success) {
         toast.success(res.message);
         router.push("/user/shop/products");
       } else {
         toast.error(res.message);
+        // console.log(res.message);
       }
     } catch (err: any) {
       console.error(err);
