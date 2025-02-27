@@ -1,4 +1,4 @@
-import ManageCategories from "@/components/modules/shop/create-shop/category";
+import ManageCategories from "@/components/modules/shop/category";
 import { getAllCategories } from "@/services/Category";
 
 const ProductCategoryPage = async () => {
