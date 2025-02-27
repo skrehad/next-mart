@@ -38,7 +38,7 @@ import { updateProduct } from "@/services/Product";
 import { ICategory } from "@/types/category";
 import { IBrand } from "@/types/brand";
 import { IProduct } from "@/types/product";
-import Logo from "@/app/assets/svgs/Logo";
+import Logo from "@/assets/svgs/Logo";
 
 export default function UpdateProductForm({ product }: { product: IProduct }) {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
