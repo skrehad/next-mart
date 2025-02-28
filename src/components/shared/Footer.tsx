@@ -30,7 +30,7 @@ const Footer = () => {
           </div>
           <p className="text-gray-600 mt-3 w-1/2">
             Save big this Black Friday with unbeatable deals on tech, home
-            essentials, fashion, and more! Limited stock.
+            essential, fashion, and more! Limited stock.
           </p>
         </div>
 
