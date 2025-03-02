@@ -6,7 +6,7 @@ import {
   incrementOrderQuantity,
   removeProduct,
   subTotalSelector,
-} from "../features/carSlice";
+} from "../features/cartSlice";
 import { RootState } from "../store";
 
 export const couponMiddleware =

@@ -1,6 +1,7 @@
+import { IProduct } from "@/types/product";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { IProduct } from "@/types/product";
+// import { RootState } from "../store";
 
 export interface CartProduct extends IProduct {
   orderQuantity: number;
@@ -81,12 +82,12 @@ export const orderedProductsSelector = (state: RootState) => {
 
 export const orderSelector = (state: RootState) => {
   return {
-    products: state?.cart?.products?.map((product) => ({
+    products: state.cart.products.map((product) => ({
       product: product._id,
       quantity: product.orderQuantity,
       color: "White",
     })),
-    shippingAddress: `${state?.cart.shippingAddress} - ${state.cart.city}`,
+    shippingAddress: `${state.cart.shippingAddress} - ${state.cart.city}`,
     paymentMethod: "Online",
   };
 };
@@ -149,4 +150,4 @@ export const {
   updateShippingAddress,
   clearCart,
 } = cartSlice.actions;
-export default cartSlice.reducer;
+export default cartSlice;
