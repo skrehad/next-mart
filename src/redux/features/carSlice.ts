@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { addCoupon } from "@/services/cart";
 import { IProduct } from "@/types/product";
 
 export interface CartProduct extends IProduct {
@@ -12,63 +10,19 @@ interface InitialState {
   products: CartProduct[];
   city: string;
   shippingAddress: string;
-  shopId: string;
-  coupon: {
-    code: string;
-    discountAmount: number;
-    isLoading: boolean;
-    error: string;
-  };
 }
 
 const initialState: InitialState = {
   products: [],
   city: "",
   shippingAddress: "",
-  shopId: "",
-  coupon: {
-    code: "",
-    discountAmount: 0,
-    isLoading: false,
-    error: "",
-  },
 };
-
-export const fetchCoupon = createAsyncThunk(
-  "cart/fetchCoupon",
-  async ({
-    couponCode,
-    subTotal,
-    shopId,
-  }: {
-    couponCode: string;
-    subTotal: number;
-    shopId: string;
-  }) => {
-    try {
-      const res = await addCoupon(couponCode, subTotal, shopId);
-
-      if (!res.success) {
-        throw new Error(res.message);
-      }
-
-      return res;
-    } catch (err: any) {
-      console.log(err);
-      throw new Error(err.message);
-    }
-  }
-);
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addProduct: (state, action) => {
-      if (state.products.length === 0) {
-        state.shopId = action.payload.shop._id;
-      }
-
       const productToAdd = state.products.find(
         (product) => product._id === action.payload._id
       );
@@ -117,24 +71,6 @@ const cartSlice = createSlice({
       state.shippingAddress = "";
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(fetchCoupon.pending, (state) => {
-      state.coupon.isLoading = true;
-      state.coupon.error = "";
-    });
-    builder.addCase(fetchCoupon.rejected, (state, action) => {
-      state.coupon.isLoading = false;
-      state.coupon.error = action.error.message as string;
-      state.coupon.code = "";
-      state.coupon.discountAmount = 0;
-    });
-    builder.addCase(fetchCoupon.fulfilled, (state, action) => {
-      state.coupon.isLoading = false;
-      state.coupon.error = "";
-      state.coupon.code = action.payload.data.coupon.code;
-      state.coupon.discountAmount = action.payload.data.discountAmount;
-    });
-  },
 });
 
 //* Products
@@ -145,27 +81,25 @@ export const orderedProductsSelector = (state: RootState) => {
 
 export const orderSelector = (state: RootState) => {
   return {
-    products: state.cart.products.map((product) => ({
+    products: state?.cart?.products?.map((product) => ({
       product: product._id,
       quantity: product.orderQuantity,
       color: "White",
     })),
-    shippingAddress: `${state.cart.shippingAddress} - ${state.cart.city}`,
+    shippingAddress: `${state?.cart.shippingAddress} - ${state.cart.city}`,
     paymentMethod: "Online",
   };
-};
-
-export const shopSelector = (state: RootState) => {
-  return state.cart.shopId;
 };
 
 //* Payment
 
 export const subTotalSelector = (state: RootState) => {
-  return state.cart.products.reduce((acc: any, product: any) => {
+  return state.cart.products.reduce((acc, product) => {
     if (product.offerPrice) {
+      console.log(product.offerPrice);
       return acc + product.offerPrice * product.orderQuantity;
     } else {
+      console.log(product.price, "Price");
       return acc + product.price * product.orderQuantity;
     }
   }, 0);
@@ -192,17 +126,8 @@ export const shippingCostSelector = (state: RootState) => {
 export const grandTotalSelector = (state: RootState) => {
   const subTotal = subTotalSelector(state);
   const shippingCost = shippingCostSelector(state);
-  const discountAmount = discountAmountSelector(state);
 
-  return subTotal - discountAmount + shippingCost;
-};
-
-export const couponSelector = (state: RootState) => {
-  return state.cart.coupon;
-};
-
-export const discountAmountSelector = (state: RootState) => {
-  return state.cart.coupon.discountAmount;
+  return subTotal + shippingCost;
 };
 
 //* Address
